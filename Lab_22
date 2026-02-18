@@ -1,0 +1,14 @@
+import pandas as pd
+
+#read the file
+df = pd.read_csv(r"C:\Users\Jawad.A\Downloads\day22_interactions.csv")
+
+#interaction
+df["feature3"]= df["feature1"]*df["feature2"]
+df["feature4"]= df["feature1"] + df["feature2"]
+df["feature5"]= ((df["feature3"]> 60) & (df["feature4"] == 1)).astype(int)
+
+#correlation with target
+df["target"] = df["target"].corr
+
+print(df)
