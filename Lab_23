@@ -1,0 +1,14 @@
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+
+df = pd.read_csv(r"C:\Users\Jawad.A\Downloads\day23_poly.csv")
+
+poly = PolynomialFeatures(degree=2)
+poly_df = poly.fit_transform(df)
+
+linear_regression = LinearRegression().fit(poly_df, df["y"])
+
+print("\n", linear_regression.score(poly_df, df["y"]))
+print(df, "\n", df.describe())
