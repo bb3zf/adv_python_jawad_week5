@@ -1,0 +1,13 @@
+import pandas as pd
+import numpy as np
+
+df = pd.read_csv(r"C:\Users\Jawad.A\Downloads\day21_housing (1).csv")
+print("\nBefore domain features\n\n", df, "\n\n", df.describe(), "\n")
+
+safe_sqft = df["sqft"].replace(0, np.nan)
+
+df["price_per_sqft"] = df["price"] /  safe_sqft
+df["price_per_bedrooms"] = df["price"] / df["bedrooms"]
+
+print("-"*80)
+print("\nAfter domain features\n\n", df, "\n\n", df.describe())
