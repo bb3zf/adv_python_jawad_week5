@@ -1,0 +1,27 @@
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.feature_selection import VarianceThreshold
+
+# 1)
+path = r"C:\Users\Jawad.A\Downloads\day25_project.csv"
+df = pd.read_csv(path)
+
+# 2) domain - interactions
+df['price_sqft'] = df['price'] / df['sqft'].replace(0, np.nan)
+df['price_rooms'] = df['price'] / df['rooms'].replace(0, np.nan)
+df['sqft_rooms'] = df['sqft'] / df['rooms'].replace(0, np.nan)
+
+# 3) transformation
+poly = PolynomialFeatures(degree=2)
+vari = poly.fit_transform(df[['sqft', 'rooms']])
+vari_df = pd.DataFrame(vari, columns=poly.get_feature_names_out())
+df = pd.concat([df, vari_df], axis=1).fillna(0)
+
+# 3) selection
+select = VarianceThreshold(threshold=0)
+df = pd.DataFrame(select.fit_transform(df), columns=select.get_feature_names_out())
+
+# 4) save
+out = r"C:\Users\Jawad.A\Downloads\day25_engineered.csv"
+df.to_csv(out, index=False)
